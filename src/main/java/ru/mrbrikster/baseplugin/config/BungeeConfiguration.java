@@ -1,5 +1,7 @@
 package ru.mrbrikster.baseplugin.config;
 
+import net.md_5.bungee.config.ConfigurationProvider;
+import net.md_5.bungee.config.YamlConfiguration;
 import ru.mrbrikster.baseplugin.plugin.BungeeBasePlugin;
 
 import java.io.File;
@@ -17,13 +19,30 @@ public class BungeeConfiguration extends Configuration {
 
     public BungeeConfiguration(String fileName, BungeeBasePlugin bungeeBasePlugin) {
         this.bungeeBasePlugin = bungeeBasePlugin;
-        //bungeeBasePlugin.saveDefaultConfig();
+        saveDefaultConfig(bungeeBasePlugin);
 
         this.file = new File(bungeeBasePlugin.getDataFolder(), fileName);
         try {
             this.configuration = net.md_5.bungee.config.ConfigurationProvider.getProvider(net.md_5.bungee.config.YamlConfiguration.class).load(file);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void saveDefaultConfig(BungeeBasePlugin bungeeBasePlugin) {
+        try {
+            if (!bungeeBasePlugin.getDataFolder().exists())
+                bungeeBasePlugin.getDataFolder().mkdir();
+
+            File configFile = new File(bungeeBasePlugin.getDataFolder(), "config.yml");
+
+            if (!configFile.exists()) {
+                ConfigurationProvider.getProvider(YamlConfiguration.class)
+                        .save(ConfigurationProvider.getProvider(YamlConfiguration.class).load(bungeeBasePlugin.getResourceAsStream("config.yml")),
+                                configFile);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
