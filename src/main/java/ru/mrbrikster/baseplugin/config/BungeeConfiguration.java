@@ -10,7 +10,6 @@ import java.io.IOException;
 public class BungeeConfiguration extends Configuration {
 
     private final File file;
-    private final BungeeBasePlugin bungeeBasePlugin;
     private net.md_5.bungee.config.Configuration configuration;
 
     public BungeeConfiguration(BungeeBasePlugin bungeeBasePlugin) {
@@ -18,7 +17,6 @@ public class BungeeConfiguration extends Configuration {
     }
 
     public BungeeConfiguration(String fileName, BungeeBasePlugin bungeeBasePlugin) {
-        this.bungeeBasePlugin = bungeeBasePlugin;
         saveDefaultConfig(bungeeBasePlugin);
 
         this.file = new File(bungeeBasePlugin.getDataFolder(), fileName);

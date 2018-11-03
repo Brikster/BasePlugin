@@ -1,6 +1,5 @@
 package ru.mrbrikster.baseplugin.config;
 
-import net.md_5.bungee.config.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 

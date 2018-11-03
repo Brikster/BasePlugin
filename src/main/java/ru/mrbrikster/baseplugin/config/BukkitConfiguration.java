@@ -9,7 +9,6 @@ import java.io.IOException;
 public class BukkitConfiguration extends Configuration {
 
     private final File file;
-    private final BukkitBasePlugin bukkitBasePlugin;
     private YamlConfiguration configuration;
 
     public BukkitConfiguration(BukkitBasePlugin bukkitBasePlugin) {
@@ -17,7 +16,6 @@ public class BukkitConfiguration extends Configuration {
     }
 
     public BukkitConfiguration(String fileName, BukkitBasePlugin bukkitBasePlugin) {
-        this.bukkitBasePlugin = bukkitBasePlugin;
         bukkitBasePlugin.saveDefaultConfig();
 
         this.file = new File(bukkitBasePlugin.getDataFolder(), fileName);
