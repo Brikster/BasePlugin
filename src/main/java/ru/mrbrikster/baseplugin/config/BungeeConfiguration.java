@@ -1,11 +1,11 @@
 package ru.mrbrikster.baseplugin.config;
 
-import net.md_5.bungee.config.ConfigurationProvider;
-import net.md_5.bungee.config.YamlConfiguration;
+import org.apache.commons.io.FileUtils;
 import ru.mrbrikster.baseplugin.plugin.BungeeBasePlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class BungeeConfiguration extends Configuration {
 
@@ -13,11 +13,11 @@ public class BungeeConfiguration extends Configuration {
     private net.md_5.bungee.config.Configuration configuration;
 
     public BungeeConfiguration(BungeeBasePlugin bungeeBasePlugin) {
-        this("config.yml", bungeeBasePlugin);
+        this(bungeeBasePlugin, "config.yml");
     }
 
-    public BungeeConfiguration(String fileName, BungeeBasePlugin bungeeBasePlugin) {
-        saveDefaultConfig(bungeeBasePlugin);
+    public BungeeConfiguration(BungeeBasePlugin bungeeBasePlugin, String fileName) {
+        saveDefaultConfig(bungeeBasePlugin, fileName);
 
         this.file = new File(bungeeBasePlugin.getDataFolder(), fileName);
         try {
@@ -27,17 +27,16 @@ public class BungeeConfiguration extends Configuration {
         }
     }
 
-    private void saveDefaultConfig(BungeeBasePlugin bungeeBasePlugin) {
+    private void saveDefaultConfig(BungeeBasePlugin bungeeBasePlugin, String fileName) {
         try {
             if (!bungeeBasePlugin.getDataFolder().exists())
                 bungeeBasePlugin.getDataFolder().mkdir();
 
-            File configFile = new File(bungeeBasePlugin.getDataFolder(), "config.yml");
+            File configFile = new File(bungeeBasePlugin.getDataFolder(), fileName);
 
             if (!configFile.exists()) {
-                ConfigurationProvider.getProvider(YamlConfiguration.class)
-                        .save(ConfigurationProvider.getProvider(YamlConfiguration.class).load(bungeeBasePlugin.getResourceAsStream("config.yml")),
-                                configFile);
+                InputStream stream = bungeeBasePlugin.getClass().getResourceAsStream("/" + fileName);
+                FileUtils.copyInputStreamToFile(stream, new File(bungeeBasePlugin.getDataFolder(), fileName));
             }
         } catch (Exception ex) {
             ex.printStackTrace();

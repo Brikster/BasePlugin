@@ -24,7 +24,7 @@ public class BungeeBasePlugin extends Plugin implements BasePlugin {
     @Override
     public Configuration getConfiguration(String fileName) {
         if (!configurations.containsKey(fileName.toLowerCase())) {
-            configurations.put(fileName.toLowerCase(), new BungeeConfiguration(fileName, this));
+            configurations.put(fileName.toLowerCase(), new BungeeConfiguration(this, fileName));
         }
 
         return configurations.get(fileName.toLowerCase());

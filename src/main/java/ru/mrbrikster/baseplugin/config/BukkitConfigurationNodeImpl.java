@@ -1,5 +1,6 @@
 package ru.mrbrikster.baseplugin.config;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 

@@ -48,7 +48,7 @@ public abstract class BukkitCommand extends Command implements BaseCommand {
         return true;
     }
 
-    public abstract void handle(CommandSender sender, String label, String[] args);
+    abstract void handle(CommandSender sender, String label, String[] args);
 
     @Override
     public void register(BasePlugin basePlugin) {
