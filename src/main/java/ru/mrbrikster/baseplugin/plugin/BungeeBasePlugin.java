@@ -3,10 +3,12 @@ package ru.mrbrikster.baseplugin.plugin;
 import net.md_5.bungee.api.plugin.Plugin;
 import ru.mrbrikster.baseplugin.config.BungeeConfiguration;
 import ru.mrbrikster.baseplugin.config.Configuration;
+import ru.mrbrikster.baseplugin.scheduler.BungeeScheduler;
+import ru.mrbrikster.baseplugin.scheduler.Scheduler;
 
 import java.util.IdentityHashMap;
 
-public class BungeeBasePlugin extends Plugin implements BasePlugin {
+public abstract class BungeeBasePlugin extends Plugin implements BasePlugin {
 
     private Configuration mainConfiguration;
     private IdentityHashMap<String, Configuration> configurations
@@ -28,6 +30,11 @@ public class BungeeBasePlugin extends Plugin implements BasePlugin {
         }
 
         return configurations.get(fileName.toLowerCase());
+    }
+
+    @Override
+    public Scheduler getScheduler() {
+        return new BungeeScheduler(this);
     }
 
 }

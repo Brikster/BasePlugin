@@ -1,12 +1,19 @@
 package ru.mrbrikster.baseplugin.config;
 
+import org.apache.commons.io.FileUtils;
+import ru.mrbrikster.baseplugin.plugin.BasePlugin;
+import ru.mrbrikster.baseplugin.plugin.BukkitBasePlugin;
+import ru.mrbrikster.baseplugin.plugin.BungeeBasePlugin;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Configuration {
 
-    private List<ReloadHandler> reloadHandlers
-            = new ArrayList<>();
+    private List<ReloadHandler> reloadHandlers = new ArrayList<>();
 
     public abstract ConfigurationNode getNode(String path);
 

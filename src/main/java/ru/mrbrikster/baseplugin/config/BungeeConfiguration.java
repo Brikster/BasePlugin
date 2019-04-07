@@ -17,29 +17,17 @@ public class BungeeConfiguration extends Configuration {
     }
 
     public BungeeConfiguration(BungeeBasePlugin bungeeBasePlugin, String fileName) {
-        saveDefaultConfig(bungeeBasePlugin, fileName);
+        try {
+            BungeeConfiguration.saveDefaultConfig(bungeeBasePlugin, fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         this.file = new File(bungeeBasePlugin.getDataFolder(), fileName);
         try {
             this.configuration = net.md_5.bungee.config.ConfigurationProvider.getProvider(net.md_5.bungee.config.YamlConfiguration.class).load(file);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    private void saveDefaultConfig(BungeeBasePlugin bungeeBasePlugin, String fileName) {
-        try {
-            if (!bungeeBasePlugin.getDataFolder().exists())
-                bungeeBasePlugin.getDataFolder().mkdir();
-
-            File configFile = new File(bungeeBasePlugin.getDataFolder(), fileName);
-
-            if (!configFile.exists()) {
-                InputStream stream = bungeeBasePlugin.getClass().getResourceAsStream("/" + fileName);
-                FileUtils.copyInputStreamToFile(stream, new File(bungeeBasePlugin.getDataFolder(), fileName));
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
         }
     }
 
@@ -67,6 +55,20 @@ public class BungeeConfiguration extends Configuration {
             this.configuration = net.md_5.bungee.config.ConfigurationProvider.getProvider(net.md_5.bungee.config.YamlConfiguration.class).load(file);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static void saveDefaultConfig(BungeeBasePlugin bungeeBasePlugin, String fileName) throws IOException {
+        File dataFolder = bungeeBasePlugin.getDataFolder();
+
+        if (!dataFolder.exists())
+            dataFolder.mkdir();
+
+        File configFile = new File(dataFolder, fileName);
+
+        if (!configFile.exists()) {
+            InputStream stream = bungeeBasePlugin.getClass().getResourceAsStream("/" + fileName);
+            FileUtils.copyInputStreamToFile(stream, new File(dataFolder, "/" + fileName));
         }
     }
 
