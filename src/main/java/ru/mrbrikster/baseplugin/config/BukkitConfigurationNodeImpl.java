@@ -52,8 +52,8 @@ public class BukkitConfigurationNodeImpl implements ConfigurationNode {
     }
 
     @Override
-    public List getAsList(List def) {
-        return configuration.getList(path, def);
+    public <T> List<T> getAsList(List<T> def) {
+        return (List<T>) configuration.getList(path, def);
     }
 
     @Override

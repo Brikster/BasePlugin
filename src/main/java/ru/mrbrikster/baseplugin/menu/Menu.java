@@ -65,7 +65,10 @@ public class Menu {
                         x = 9;
 
                     Icon icon = menuHolder.getMenu().get(x, y);
-                    icon.getHandler().onClick(new ClickIconAction(menuHolder.getMenu(), (Player) inventoryClickEvent.getWhoClicked(), icon));
+
+                    if (icon != null) {
+                        icon.getHandler().onClick(new ClickIconAction(menuHolder.getMenu(), (Player) inventoryClickEvent.getWhoClicked(), icon));
+                    }
 
                     inventoryClickEvent.setCancelled(true);
                 }

@@ -17,7 +17,7 @@ public interface ConfigurationNode {
 
     int getAsInt(int def);
 
-    List getAsList(List def);
+    <T> List<T> getAsList(List<T> def);
 
     List<Map<?, ?>> getAsMapList();
 
