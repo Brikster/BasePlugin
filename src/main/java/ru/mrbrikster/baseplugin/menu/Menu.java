@@ -26,7 +26,6 @@ public abstract class Menu {
     private final int lines;
 
     private final Icon[][] icons = new Icon[9][6];
-    @Getter @Setter private boolean allowClose = true;
 
     public Menu(BukkitBasePlugin bukkitBasePlugin, String title) {
         this(bukkitBasePlugin, title, 6);
@@ -128,7 +127,7 @@ public abstract class Menu {
     }
 
     public boolean onClose(Player player) {
-        return isAllowClose();
+        return true;
     }
 
     public Icon set(Icon icon, int x, int y) {
