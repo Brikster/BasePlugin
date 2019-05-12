@@ -16,7 +16,6 @@ public class ClickIconAction {
     @Getter private Icon icon;
 
     public void close() {
-        menu.setAllowClose(true);
         menu.getBukkitBasePlugin().getScheduler().schedule(player::closeInventory, 50, TimeUnit.MILLISECONDS);
     }
 
