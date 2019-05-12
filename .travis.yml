@@ -1,9 +1,8 @@
 language: java
-script: mvn clean package
 deploy:
   provider: releases
   api_key:
     secure: UaQ+XO2NmjTG28gq/1oaAk9Z10wissDSsuaQ9sZif13LYCAsFN/dLj1xwmzmRIwuZGfOYxd8O6hTF2P/IRA0OSm3swUFR9cpO8uC3nMZ7Fscb5y0teI2GNOnsggRUTbg8N9NwWqz70kcbk6uvzWFkeXNWhviMhDKL3flu3QbdERUkKVH/vB5pAR3OAwPMLYAp0hSwTufedtakn1pysGm70e/cRpo8xjCmG3Sqf9nB4C63fqXRXb4nhyqQzgaq4QXNSaKHRFXnO79OYlMUABDMlpil+qh4DnaI3PYL+jzwBET5Xf5j9A2+Slet0dee1z+pVjTevNM4plk31zP4CkryxItlrnQrBAljvssZvAPzdHd+OEvTYKGdcsF54vjNOzb7CsK0yFn/5NqbwwYeCSk7/xFa3REQbEMe1Ry4/r3UraWSoXlZwrdjlJ+fIWHW7+jx3dfGNd0Z7HuoEHvwG4DX93pjCXxKw6d8y0oXsYes8Zmwd0UHWQY5NvVkp7zDzkcSo8PD/Dz3nMV08hzz4vG5qoVNb0+UxnJfNJqF7veC3qGyDlliAK9XQQu7QfpeFyoTqTitFjV2sNJhTZgU3d9b7BV5JlAWt87WmG6QZfTYXTUwrEgYdNGyGd6v4yWG4+h99PRVgjMSKex7F62ngfKGdYqQ2d0lxv5SNIw803D4BQ=
   file: target/BasePlugin.jar
   on:
-    repo: Brikster/BasePlugin
+    tags: true
