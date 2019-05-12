@@ -2,31 +2,31 @@ package ru.mrbrikster.baseplugin.menu;
 
 import com.google.common.base.Preconditions;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.inventory.InventoryInteractEvent;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
+import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import ru.mrbrikster.baseplugin.plugin.BukkitBasePlugin;
 
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-public class Menu {
+public abstract class Menu {
 
     @Getter private final BukkitBasePlugin bukkitBasePlugin;
-    @Getter private final String title;
+    @Getter @Setter private String title;
     private final int lines;
 
     private final Icon[][] icons = new Icon[9][6];
+    @Getter @Setter private boolean allowClose = true;
 
     public Menu(BukkitBasePlugin bukkitBasePlugin, String title) {
         this(bukkitBasePlugin, title, 6);
@@ -110,7 +110,25 @@ public class Menu {
                 }
             }
 
+            @EventHandler
+            public void onInventoryClose(InventoryCloseEvent inventoryCloseEvent) {
+                Inventory inventory = inventoryCloseEvent.getInventory();
+
+                if (inventory != null && inventory.getHolder() instanceof MenuHolder
+                        && ((MenuHolder) inventory.getHolder()).getMenu().equals(Menu.this)) {
+                    Player player = (Player) inventoryCloseEvent.getPlayer();
+
+                    if (!onClose(player)) {
+                        getBukkitBasePlugin().getScheduler().schedule(() -> Menu.this.open(player), 1, TimeUnit.SECONDS);
+                    }
+                }
+            }
+
         }, bukkitBasePlugin);
+    }
+
+    public boolean onClose(Player player) {
+        return isAllowClose();
     }
 
     public Icon set(Icon icon, int x, int y) {
