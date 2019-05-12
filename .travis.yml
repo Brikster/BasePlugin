@@ -6,3 +6,4 @@ deploy:
   file: target/BasePlugin.jar
   on:
     tags: true
+  
