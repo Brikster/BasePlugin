@@ -61,7 +61,7 @@ public class BukkitConfiguration extends Configuration {
 
         if (!configFile.exists()) {
             InputStream stream = bukkitBasePlugin.getClass().getResourceAsStream("/" + fileName);
-            FileUtils.copyInputStreamToFile(stream, new File(dataFolder, "/" + fileName));
+            FileUtils.copyInputStreamToFile(stream, new File(dataFolder, fileName));
         }
     }
 
