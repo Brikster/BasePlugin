@@ -9,6 +9,7 @@ import java.util.List;
 public class Icon {
 
     @Getter @Setter @NonNull private Material type;
+    @Getter @Setter @Builder.Default private int dataValue = 0;
     @Getter @Setter @NonNull private String name;
     @Getter @Setter @Builder.Default private boolean enchant;
     @Getter @Setter @Singular("lore") private List<String> lore;
