@@ -1,34 +1,23 @@
 package ru.mrbrikster.baseplugin.config;
 
-import org.apache.commons.io.FileUtils;
-import ru.mrbrikster.baseplugin.plugin.BasePlugin;
-import ru.mrbrikster.baseplugin.plugin.BukkitBasePlugin;
-import ru.mrbrikster.baseplugin.plugin.BungeeBasePlugin;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public abstract class Configuration {
 
-    private List<ReloadHandler> reloadHandlers = new ArrayList<>();
+    private List<Consumer<Configuration>> consumerList = new ArrayList<>();
 
     public abstract ConfigurationNode getNode(String path);
 
     public abstract void save();
 
-    public abstract void onReload();
-
     public void reload() {
-        onReload();
-
-        reloadHandlers.forEach(ReloadHandler::onConfigurationReload);
+        consumerList.forEach(consumer -> consumer.accept(this));
     }
 
-    public void registerReloadHandler(ReloadHandler reloadHandler) {
-        this.reloadHandlers.add(reloadHandler);
+    public void onReload(Consumer<Configuration> consumer) {
+        this.consumerList.add(consumer);
     }
 
     public interface ReloadHandler {

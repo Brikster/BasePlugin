@@ -1,5 +1,6 @@
 package ru.mrbrikster.baseplugin.config;
 
+import net.md_5.bungee.config.YamlConfiguration;
 import org.apache.commons.io.FileUtils;
 import ru.mrbrikster.baseplugin.plugin.BungeeBasePlugin;
 
@@ -9,7 +10,7 @@ import java.io.InputStream;
 
 public class BungeeConfiguration extends Configuration {
 
-    private final File file;
+    private File file;
     private net.md_5.bungee.config.Configuration configuration;
 
     public BungeeConfiguration(BungeeBasePlugin bungeeBasePlugin) {
@@ -25,11 +26,16 @@ public class BungeeConfiguration extends Configuration {
 
         this.file = new File(bungeeBasePlugin.getDataFolder(), fileName);
         try {
-            this.configuration = net.md_5.bungee.config.ConfigurationProvider.getProvider(net.md_5.bungee.config.YamlConfiguration.class).load(file);
+            this.configuration = net.md_5.bungee.config.ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+    
+    public BungeeConfiguration(net.md_5.bungee.config.Configuration configuration) {
+        this.configuration = configuration;
+    }
+    
 
     @Override
     public ConfigurationNode getNode(String path) {
@@ -42,20 +48,30 @@ public class BungeeConfiguration extends Configuration {
 
     @Override
     public void save() {
+        if (file == null) {
+            throw new IllegalArgumentException("BungeeConfiguration is loaded not from file");
+        }
+
         try {
-            net.md_5.bungee.config.ConfigurationProvider.getProvider(net.md_5.bungee.config.YamlConfiguration.class).save(configuration, file);
+            net.md_5.bungee.config.ConfigurationProvider.getProvider(YamlConfiguration.class).save(configuration, file);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void onReload() {
+    public void reload() {
+        if (file == null) {
+            throw new IllegalArgumentException("BungeeConfiguration is loaded not from file");
+        }
+
         try {
-            this.configuration = net.md_5.bungee.config.ConfigurationProvider.getProvider(net.md_5.bungee.config.YamlConfiguration.class).load(file);
+            this.configuration = net.md_5.bungee.config.ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        super.reload();
     }
 
     private static void saveDefaultConfig(BungeeBasePlugin bungeeBasePlugin, String fileName) throws IOException {

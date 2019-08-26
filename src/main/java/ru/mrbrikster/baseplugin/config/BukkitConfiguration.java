@@ -10,7 +10,7 @@ import java.io.InputStream;
 
 public class BukkitConfiguration extends Configuration {
 
-    private final File file;
+    private File file;
     private YamlConfiguration configuration;
 
     public BukkitConfiguration(BukkitBasePlugin bukkitBasePlugin) {
@@ -28,6 +28,10 @@ public class BukkitConfiguration extends Configuration {
         this.configuration = YamlConfiguration.loadConfiguration(file);
     }
 
+    public BukkitConfiguration(YamlConfiguration yamlConfiguration) {
+        this.configuration = yamlConfiguration;
+    }
+
     @Override
     public ConfigurationNode getNode(String path) {
         if (configuration.contains(path)
@@ -39,6 +43,10 @@ public class BukkitConfiguration extends Configuration {
 
     @Override
     public void save() {
+        if (file == null) {
+            throw new IllegalArgumentException("BukkitConfiguration is loaded not from file");
+        }
+
         try {
             configuration.save(file);
         } catch (IOException e) {
@@ -47,8 +55,14 @@ public class BukkitConfiguration extends Configuration {
     }
 
     @Override
-    public void onReload() {
+    public void reload() {
+        if (file == null) {
+            throw new IllegalArgumentException("BukkitConfiguration is loaded not from file");
+        }
+
         this.configuration = YamlConfiguration.loadConfiguration(file);
+
+        super.reload();
     }
 
     private static void saveDefaultConfig(BukkitBasePlugin bukkitBasePlugin, String fileName) throws IOException {
